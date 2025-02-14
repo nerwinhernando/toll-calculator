@@ -1,0 +1,2 @@
+class Expressway < ApplicationRecord
+end
