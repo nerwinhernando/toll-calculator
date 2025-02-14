@@ -57,3 +57,8 @@ group :development do
   gem "web-console"
 end
 
+
+gem "whenever", "~> 1.0"
+gem "nokogiri", "~> 1.18"
+gem "rspec-rails", "~> 7.1"
+gem "factory_bot_rails", "~> 6.4"
