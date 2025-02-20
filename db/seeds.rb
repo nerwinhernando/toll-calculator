@@ -247,7 +247,7 @@ def create_other_vehicle_classes(expressway, rates)
     create_bidirectional_route(expressway, {
       origin: rate[:origin],
       destination: rate[:destination],
-      toll_fee: (rate[:toll_fee] * 2.5).round,
+      toll_fee: (rate[:toll_fee] * 2.51).round,
       vehicle_class: 2
     })
 
@@ -255,7 +255,7 @@ def create_other_vehicle_classes(expressway, rates)
     create_bidirectional_route(expressway, {
       origin: rate[:origin],
       destination: rate[:destination],
-      toll_fee: (rate[:toll_fee] * 3).round,
+      toll_fee: (rate[:toll_fee] * 3.01).round,
       vehicle_class: 3
     })
   end
