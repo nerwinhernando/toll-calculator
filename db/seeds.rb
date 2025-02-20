@@ -1,10 +1,39 @@
+# NLEX SCTEX: https://trb.gov.ph/index.php/toll-rates/nlex-toll-rate
+# TPLEX: https://trb.gov.ph/index.php/toll-rates/tplex-toll-rate
+# CAVITEX: https://trb.gov.ph/index.php/toll-rates/cavitex-toll-rate
+# SLEX: https://trb.gov.ph/index.php/toll-rates/slex-toll-rate
+# SCTEX: https://trb.gov.ph/index.php/toll-rates/sctex-toll-rate
+# NAIAX: https://trb.gov.ph/index.php/toll-rates/naiax-expressway
+# CALAX: https://trb.gov.ph/index.php/toll-rates/calax-toll-rate
+# STAR: https://trb.gov.ph/index.php/toll-rates/star-toll-rate
+# MCX: https://trb.gov.ph/index.php/toll-rates/mcx-toll-rate
+# C5 Link: https://trb.gov.ph/index.php/toll-rates/c5-link-toll-rate
+# CAVITEX C5 Link: https://trb.gov.ph/index.php/toll-rates/cavitex-c5-link-toll-rate
+# CAVITEX C5 South Link Expressway: https://trb.gov.ph/index.php/toll-rates/cavitex-c5-south-link-expressway
+# CALAX Laguna Segment: https://trb.gov.ph/index.php/toll-rates/calax-laguna-segment
+# CALAX Cavite Segment: https://trb.gov.ph/index.php/toll-rates/calax-cavite-segment
+# SKYWAY STAGE 3: https://trb.gov.ph/index.php/toll-rates/metro-manila-skyway-stage-3
+# CCLEX: https://trb.gov.ph/index.php/toll-rates/cclex-toll-rate
+
 # Create Expressways
 expressways_data = [
   { name: 'NLEX', description: 'North Luzon Expressway' },
   { name: 'SLEX', description: 'South Luzon Expressway' },
   { name: 'TPLEX', description: 'Tarlac–Pangasinan–La Union Expressway' },
   { name: 'SCTEX', description: 'Subic–Clark–Tarlac Expressway' },
-  { name: 'CAVITEX', description: 'Manila–Cavite Expressway' }
+  { name: 'CAVITEX', description: 'Manila–Cavite Expressway' },
+  { name: 'NAIAX', description: 'Ninoy Aquino International Airport Expressway' },
+  { name: 'CALAX', description: 'Cavite–Laguna Expressway' },
+  { name: 'STAR', description: 'Southern Tagalog Arterial Road' },
+  { name: 'MCX', description: 'Muntinlupa–Cavite Expressway' },
+  { name: 'C5 Link', description: 'C5 South Link Expressway' },
+  { name: 'CAVITEX C5 Link', description: 'Cavite–C5 Link Expressway' },
+  { name: 'CAVITEX C5 South Link', description: 'Cavite–C5 South Link Expressway' },
+  { name: 'CAVITEX C5 South Link Expressway', description: 'Cavite–C5 South Link Expressway' },
+  { name: 'CALAX Laguna Segment', description: 'Cavite–Laguna Expressway Laguna Segment' },
+  { name: 'CALAX Cavite Segment', description: 'Cavite–Laguna Expressway Cavite Segment' },
+  { name: 'SKYWAY STAGE 3', description: 'Metro Manila Skyway Stage 3' },
+  { name: 'CCLEX', description: 'Cebu–Cordova Link Expressway' },
 ]
 
 expressways_data.each do |data|
@@ -20,7 +49,13 @@ cities_data = [
   'Mabalacat(Mabiga)', 'Dolores', 'Concepcion', 'San Miguel', 'Tarlac City',
   # SCTEX Entry/Exit Points
   'Tipo', 'Subic', 'Dinalupihan', 'Floridablanca', 'Porac', 'Clark South',
-  'Clark North', 'Mabalacat', 'Bamban', 'Tarlac City'
+  'Clark North', 'Mabalacat', 'Bamban', 'Tarlac City',
+  # SKYWAY STAGE 3 Entry/Exit Points
+  'Buendia', 'Quirino', 'Plaza Azul', 'Nagtahan', 'Aurora Blvd', 'E. Rodriguez', 'Quezon Ave', 'Balintawak', 'NLEX',
+  # CAVITEX Entry/Exit Points
+  'Merville', 'Taguig', 'Roxas Blvd', 'Kawit', 'Zapote', 'C5 Road Extension/C.P.Garcia', 'Sucat Road/Dr. A Santos Avenue',
+  # CALAX Entry/Exit Points
+  'Mamplasan', 'Santa Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay',
 ]
 
 cities_data.each do |name|
@@ -195,6 +230,20 @@ nlex_rates = [
   # Add more origin-destination pairs as needed
 ]
 
+cavitex = Expressway.find_by!(name: 'CAVITEX')
+cavitex_rates = [
+  { origin: 'Merville', destination: 'Taguig', toll_fee: 35, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Zapote', toll_fee: 35, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Kawit', toll_fee: 108, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'Zapote', destination: 'Kawit', toll_fee: 73, vehicle_class: 1 },
+  { origin: 'Zapote', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'Kawit', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 109, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Roxas Blvd', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Zapote', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Kawit', toll_fee: 109, vehicle_class: 1 },
+]
+
 # SCTEX Toll Rates - Class 1 Vehicles
 sctex = Expressway.find_by!(name: 'SCTEX')
 
@@ -210,8 +259,49 @@ sctex_rates = [
   # Add more SCTEX rates as needed
 ]
 
+# SKYWAY STAGE 3 Toll Rates - Class 1 Vehicles
+skyway_stage_3 = Expressway.find_by!(name: 'SKYWAY STAGE 3')
+skyway_stage_3_rates = [
+  # Buenida entry point rates
+  { origin: 'Buendia', destination: 'Quirino', toll_fee: 105, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'Plaza Azul', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'Nagtahan', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'Aurora Blvd', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'E. Rodriguez', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'Quezon Ave', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'Balintawak', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Buendia', destination: 'NLEX', toll_fee: 264, vehicle_class: 1 },
+  # Quirino entry point rates
+  { origin: 'Quirino', destination: 'Plaza Azul', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'Nagtahan', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'Aurora Blvd', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'E. Rodriguez', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'Quezon Ave', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'Balintawak', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Quirino', destination: 'NLEX', toll_fee: 264, vehicle_class: 1 },
+  # Plaza Azul entry point rates
+  { origin: 'Plaza Azul', destination: 'Nagtahan', toll_fee: 105, vehicle_class: 1 },
+  { origin: 'Plaza Azul', destination: 'Aurora Blvd', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Plaza Azul', destination: 'E. Rodriguez', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Plaza Azul', destination: 'Quezon Ave', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Plaza Azul', destination: 'Balintawak', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Plaza Azul', destination: 'NLEX', toll_fee: 264, vehicle_class: 1 },
+  # Nagtahan entry point rates
+  { origin: 'Nagtahan', destination: 'Aurora Blvd', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Nagtahan', destination: 'E. Rodriguez', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Nagtahan', destination: 'Quezon Ave', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Nagtahan', destination: 'Balintawak', toll_fee: 264, vehicle_class: 1 },
+  { origin: 'Nagtahan', destination: 'NLEX', toll_fee: 264, vehicle_class: 1 },
+  # E. Rodriguez entry point rates
+  { origin: 'E. Rodriguez', destination: 'Quezon Ave', toll_fee: 129, vehicle_class: 1 },
+  { origin: 'E. Rodriguez', destination: 'Balintawak', toll_fee: 129, vehicle_class: 1 },
+  { origin: 'E. Rodriguez', destination: 'NLEX', toll_fee: 129, vehicle_class: 1 },
+]
+
 # Create all routes
 def create_bidirectional_route(expressway, data)
+  puts "Creating route from #{data[:origin]} to #{data[:destination]} with toll fee #{data[:toll_fee]} for Class #{data[:vehicle_class]}"
+
   origin = City.find_by!(name: data[:origin])
   destination = City.find_by!(name: data[:destination])
 
@@ -239,6 +329,8 @@ end
 # Create routes for both expressways
 nlex_rates.each { |rate| create_bidirectional_route(nlex, rate) }
 sctex_rates.each { |rate| create_bidirectional_route(sctex, rate) }
+cavitex_rates.each { |rate| create_bidirectional_route(cavitex, rate) }
+skyway_stage_3_rates.each { |rate| create_bidirectional_route(skyway_stage_3, rate) }
 
 # Create Class 2 and 3 rates based on multipliers
 def create_other_vehicle_classes(expressway, rates)
