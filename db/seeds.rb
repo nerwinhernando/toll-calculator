@@ -206,7 +206,6 @@ sctex_rates = [
   { origin: 'Tipo', destination: 'Clark South', toll_fee: 225, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Clark North', toll_fee: 236, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Mabalacat', toll_fee: 248, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Bamban', toll_fee: 268, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Tarlac City', toll_fee: 291, vehicle_class: 1 },
   # Add more SCTEX rates as needed
 ]
