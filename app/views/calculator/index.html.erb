@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Philippine Expressway Toll Calculator</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application' %>
+</head>
+<body class="container mx-auto px-4 py-8">
+  
+  <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+  <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+    <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+      <div class="max-w-md mx-auto">
+        <div class="divide-y divide-gray-200">
+          <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+            <h1 class="text-3xl font-bold text-center mb-8">Philippine Expressway Toll Calculator</h1>
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Origin City</label>
+              <%= select_tag :origin_id,
+                  options_from_collection_for_select(@cities, :id, :name),
+                  class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Destination City</label>
+              <%= select_tag :destination_id,
+                  options_from_collection_for_select(@cities, :id, :name),
+                  class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+            </div>
+
+            <div class="mt-8 flex justify-center">
+              <button id="calculate" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Calculate Toll
+              </button>
+            </div>
+          </div>
+
+          <div id="result" class="hidden py-8">
+            <h2 class="text-xl font-bold mb-4">Toll Fee Breakdown</h2>
+            <div id="route-details" class="space-y-2"></div>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <p class="text-lg font-bold">Total Toll Fee: ₱<span id="total-toll">0.00</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<%= javascript_tag do %>
+  document.getElementById('calculate').addEventListener('click', async () => {
+    const originId = document.getElementById('origin_id').value;
+    const destinationId = document.getElementById('destination_id').value;
+    
+    try {
+      const response = await fetch('/calculations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ origin_id: originId, destination_id: destinationId })
+      });
+      
+      const data = await response.json();
+      
+      const resultDiv = document.getElementById('result');
+      const routeDetails = document.getElementById('route-details');
+      const totalToll = document.getElementById('total-toll');
+      
+      routeDetails.innerHTML = data.routes.map(route => `
+        <div class="flex justify-between items-center py-2">
+          <span class="font-medium">${route.expressway}:</span>
+          <span>₱${(Number(route.toll_fee)).toFixed(2)}</span>
+        </div>
+      `).join('');
+      
+      totalToll.textContent = Number(data.total_toll).toFixed(2);
+      resultDiv.classList.remove('hidden');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while calculating the toll fee.');
+    }
+  });
+<% end %>
+</html>
