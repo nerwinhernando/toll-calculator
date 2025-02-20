@@ -15,7 +15,7 @@ end
 cities_data = [
   # NLEX Entry/Exit Points
   'Balintawak', 'Mindanao Avenue', 'Karuhatan', 'Valenzuela',
-  'Meycauayan', 'Marilao', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita',
+  'Meycauayan', 'Marilao', 'Ciudad de Victoria', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita',
   'Pulilan', 'San Simon', 'San Fernando', 'Mexico', 'Angeles', 'Dau', 'Sta. Ines',
   'Mabalacat(Mabiga)', 'Dolores', 'Concepcion', 'San Miguel', 'Tarlac City',
   # SCTEX Entry/Exit Points
@@ -206,7 +206,6 @@ sctex_rates = [
   { origin: 'Tipo', destination: 'Clark South', toll_fee: 225, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Clark North', toll_fee: 236, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Mabalacat', toll_fee: 248, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Bamban', toll_fee: 268, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Tarlac City', toll_fee: 291, vehicle_class: 1 },
   # Add more SCTEX rates as needed
 ]
@@ -248,7 +247,7 @@ def create_other_vehicle_classes(expressway, rates)
     create_bidirectional_route(expressway, {
       origin: rate[:origin],
       destination: rate[:destination],
-      toll_fee: (rate[:toll_fee] * 2.5).round,
+      toll_fee: (rate[:toll_fee] * 2.51).round,
       vehicle_class: 2
     })
 
@@ -256,7 +255,7 @@ def create_other_vehicle_classes(expressway, rates)
     create_bidirectional_route(expressway, {
       origin: rate[:origin],
       destination: rate[:destination],
-      toll_fee: (rate[:toll_fee] * 3).round,
+      toll_fee: (rate[:toll_fee] * 3.01).round,
       vehicle_class: 3
     })
   end
