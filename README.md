@@ -1,24 +1,25 @@
-# README
+# Toll Calculator (Philippines)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## First, build the Docker images:
 
-Things you may want to cover:
+```sh
+docker-compose build
+```
 
-* Ruby version
+## Create and setup the database:
+```sh
+docker-compose run web rails db:create
+docker-compose run web rails db:migrate
+docker-compose run web rails db:seed
+```
 
-* System dependencies
+## Start the application:
 
-* Configuration
+```sh
+docker-compose up
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## To run the toll rate parser manually:
+```sh
+docker-compose run web bundle exec rake toll_rates:update
+```
