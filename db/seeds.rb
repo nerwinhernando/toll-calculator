@@ -15,7 +15,7 @@ end
 cities_data = [
   # NLEX Entry/Exit Points
   'Balintawak', 'Mindanao Avenue', 'Karuhatan', 'Valenzuela',
-  'Meycauayan', 'Marilao', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita',
+  'Meycauayan', 'Marilao', 'Ciudad de Victoria', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita',
   'Pulilan', 'San Simon', 'San Fernando', 'Mexico', 'Angeles', 'Dau', 'Sta. Ines',
   'Mabalacat(Mabiga)', 'Dolores', 'Concepcion', 'San Miguel', 'Tarlac City',
   # SCTEX Entry/Exit Points
