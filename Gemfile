@@ -60,3 +60,8 @@ end
 gem 'whenever', require: false
 gem 'nokogiri'
 gem "byebug", "~> 11.1"
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+end
