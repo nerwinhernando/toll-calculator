@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_20_151748) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_152015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,4 +26,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_151748) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "routes", force: :cascade do |t|
+    t.bigint "expressway_id", null: false
+    t.bigint "origin_id", null: false
+    t.bigint "destination_id", null: false
+    t.decimal "toll_fee", precision: 10, scale: 2, null: false
+    t.integer "vehicle_class", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_routes_on_destination_id"
+    t.index ["expressway_id", "origin_id", "destination_id", "vehicle_class"], name: "idx_routes_on_expressway_cities_and_class", unique: true
+    t.index ["expressway_id"], name: "index_routes_on_expressway_id"
+    t.index ["origin_id"], name: "index_routes_on_origin_id"
+  end
+
+  add_foreign_key "routes", "cities", column: "destination_id"
+  add_foreign_key "routes", "cities", column: "origin_id"
+  add_foreign_key "routes", "expressways"
 end
