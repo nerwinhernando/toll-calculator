@@ -1,3 +1,4 @@
+# to execute this task run: rake toll_rates:update
 namespace :toll_rates do
   desc 'Update toll rates from TRB website'
   task update: :environment do
