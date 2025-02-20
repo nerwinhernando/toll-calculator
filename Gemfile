@@ -57,3 +57,5 @@ group :development do
   gem "web-console"
 end
 
+
+gem "byebug", "~> 11.1"
