@@ -15,6 +15,15 @@
 # SKYWAY STAGE 3: https://trb.gov.ph/index.php/toll-rates/metro-manila-skyway-stage-3
 # CCLEX: https://trb.gov.ph/index.php/toll-rates/cclex-toll-rate
 
+# TODO:
+# - 1 Instead of city name in origin and destination, use city code
+# - 2 Searching of available routes improvements
+# - 3 Logo
+# - 4 Add more expressways
+# - 5 Add more cities for each expressway
+# - 6 Add which section of the expressway the city is located
+# - 7 Add city code, and province code
+
 # Create Expressways
 expressways_data = [
   { name: 'NLEX', description: 'North Luzon Expressway' },
@@ -43,30 +52,54 @@ end
 # Create Cities/Entry-Exit Points for NLEX-SCTEX-TPLEX
 cities_data = [
   # NLEX Entry/Exit Points
-  'Balintawak', 'Mindanao Avenue', 'Karuhatan', 'Valenzuela',
-  'Meycauayan', 'Marilao', 'Ciudad de Victoria', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita',
-  'Pulilan', 'San Simon', 'San Fernando', 'Mexico', 'Angeles', 'Dau', 'Sta. Ines',
-  'Mabalacat(Mabiga)', 'Dolores', 'Concepcion', 'San Miguel', 'Tarlac City',
+  ## Metro Manila Section
+  'NLEX-EN', 'NLEX-EX', 'Balintawak', 'Mindanao Avenue', 'Karuhatan', 'Valenzuela',
+  ## Bulacan Section
+  'Meycauayan', 'Marilao', 'Ciudad de Victoria', 'Bocaue', 'Tambubong', 'Balagtas', 'Tabang', 'Santa Rita', 'Pulilan',
+  ## Pampanga Section
+  'San Simon', 'San Fernando', 'Mexico', 'Angeles', 'Dau', 'Sta. Ines',
   # SCTEX Entry/Exit Points
-  'Tipo', 'Subic', 'Dinalupihan', 'Floridablanca', 'Porac', 'Clark South',
-  'Clark North', 'Mabalacat', 'Bamban', 'Tarlac City',
+  'SCTEX-EN', 'SCTEX-EX',
+  ## Bataan Section
+  'Tipo', 'Dinalupihan',
+  ## Pampanga Section
+  'Mabalacat(Mabiga)', 'Dolores', 'Clark North', 'Mabalacat', 'Bamban', 'Tarlac City', 'Floridablanca', 'Porac', 'Clark South',
+  # Tarlac Section
+  'Concepcion', 'San Miguel', 'Tarlac',
   # SKYWAY STAGE 3 Entry/Exit Points
-  'Buendia', 'Quirino', 'Plaza Azul', 'Nagtahan', 'Aurora Blvd', 'E. Rodriguez', 'Quezon Ave', 'Balintawak', 'NLEX',
+  'STAGE-THREE-EN', 'STAGE-THREE-EX', 'Buendia', 'Quirino', 'Plaza Azul', 'Nagtahan', 'Aurora Blvd', 'E. Rodriguez', 'Quezon Ave', 'Balintawak',
   # CAVITEX Entry/Exit Points
-  'Merville', 'Taguig', 'Roxas Blvd', 'Kawit', 'Zapote', 'C5 Road Extension/C.P.Garcia', 'Sucat Road/Dr. A Santos Avenue',
+  'CAVITEX-EN', 'CAVITEX-EX', 'Merville', 'Taguig', 'Roxas Blvd', 'Kawit', 'Zapote', 'C5 Road Extension/C.P.Garcia', 'Sucat Road/Dr. A Santos Avenue',
   # CALAX Entry/Exit Points
-  'Mamplasan', 'Santa Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay',
+  'CALAX-EN', 'CALAX-EX', 'Mamplasan', 'Santa Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay', 'Silang', 'Sta. Rosa-Tagaytay',
+  # NAIAX Entry/Exit Points
+  'NAIAX-EN', 'NAIAX-EX',
+  # TPLEX Entry/Exit Points
+  'TPLEX-EN', 'TPLEX-EX', 'Victoria', 'Pura', 'Gerona', 'Paniqui', 'Moncada', 'Carmen', 'Urdaneta', 'Binalonan', 'Pozzorubio', 'Sison', 'Rosario',
 ]
 
 cities_data.each do |name|
   City.create!(name: name)
 end
 
+# NAIA Expressway Toll Rates - Class 1 Vehicles (Based on official matrix)
+naiax = Expressway.find_by!(name: 'NAIAX')
+
+naiax_rates = [
+  { origin: 'NAIAX-EN', destination: 'CAVITEX-EX', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'NAIAX-EX', destination: 'CAVITEX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'NAIAX-EN', destination: 'NAIAX-EX', toll_fee: 40, vehicle_class: 1 },
+  { origin: 'NAIAX-EX', destination: 'STAGE-THREE-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'STAGE-THREE-EX', destination: 'NAIAX-EN', toll_fee: 0, vehicle_class: 1 },
+]
+
 # NLEX Toll Rates - Class 1 Vehicles (Based on official matrix)
 nlex = Expressway.find_by!(name: 'NLEX')
 
 nlex_rates = [
   # Balintawak entry point rates
+  { origin: 'NLEX-EN', destination: 'Balintawak', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'Balintawak', destination: 'NLEX-EX', toll_fee: 0, vehicle_class: 1 },
   { origin: 'Balintawak', destination: 'Mindanao Avenue', toll_fee: 74, vehicle_class: 1 },
   { origin: 'Balintawak', destination: 'Karuhatan', toll_fee: 74, vehicle_class: 1 },
   { origin: 'Balintawak', destination: 'Valenzuela', toll_fee: 74, vehicle_class: 1 },
@@ -462,6 +495,33 @@ nlex_rates = [
   { origin: 'Sta. Ines', destination: 'Concepcion', toll_fee: 194, vehicle_class: 1 },
   { origin: 'Sta. Ines', destination: 'San Miguel', toll_fee: 276, vehicle_class: 1 },
   { origin: 'Sta. Ines', destination: 'Tarlac City', toll_fee: 305, vehicle_class: 1 },
+]
+
+cavitex = Expressway.find_by!(name: 'CAVITEX')
+cavitex_rates = [
+  { origin: 'Merville', destination: 'Taguig', toll_fee: 35, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'CAVITEX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'CAVITEX-EX', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Zapote', toll_fee: 35, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Kawit', toll_fee: 108, vehicle_class: 1 },
+  { origin: 'Roxas Blvd', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'Zapote', destination: 'Kawit', toll_fee: 73, vehicle_class: 1 },
+  { origin: 'Zapote', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'Kawit', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 109, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Roxas Blvd', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Zapote', toll_fee: 36, vehicle_class: 1 },
+  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Kawit', toll_fee: 109, vehicle_class: 1 },
+  { origin: 'CAVITEX-EX', destination: 'NAIAX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'CAVITEX-EN', destination: 'NAIAX-EX', toll_fee: 0, vehicle_class: 1 },
+]
+
+# SCTEX Toll Rates - Class 1 Vehicles
+sctex = Expressway.find_by!(name: 'SCTEX')
+
+sctex_rates = [
+  { origin: 'NLEX-EX', destination: 'SCTEX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'SCTEX-EN', destination: 'Tipo', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'SCTEX-EX', destination: 'TPLEX-EN', toll_fee: 0, vehicle_class: 1 },
   # Tipo entry point rates
   { origin: 'Tipo', destination: 'Dinalupihan', toll_fee: 107, vehicle_class: 1 },
   { origin: 'Tipo', destination: 'Floridablanca', toll_fee: 217, vehicle_class: 1 },
@@ -529,39 +589,88 @@ nlex_rates = [
   { origin: 'San Miguel', destination: 'Tarlac City', toll_fee: 29, vehicle_class: 1 },
 ]
 
-cavitex = Expressway.find_by!(name: 'CAVITEX')
-cavitex_rates = [
-  { origin: 'Merville', destination: 'Taguig', toll_fee: 35, vehicle_class: 1 },
-  { origin: 'Roxas Blvd', destination: 'Zapote', toll_fee: 35, vehicle_class: 1 },
-  { origin: 'Roxas Blvd', destination: 'Kawit', toll_fee: 108, vehicle_class: 1 },
-  { origin: 'Roxas Blvd', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
-  { origin: 'Zapote', destination: 'Kawit', toll_fee: 73, vehicle_class: 1 },
-  { origin: 'Zapote', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 36, vehicle_class: 1 },
-  { origin: 'Kawit', destination: 'Sucat Road/Dr. A Santos Avenue', toll_fee: 109, vehicle_class: 1 },
-  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Roxas Blvd', toll_fee: 36, vehicle_class: 1 },
-  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Zapote', toll_fee: 36, vehicle_class: 1 },
-  { origin: 'C5 Road Extension/C.P.Garcia', destination: 'Kawit', toll_fee: 109, vehicle_class: 1 },
-]
+# TPLEX Toll Rates - Class 1 Vehicles
+tplex = Expressway.find_by!(name: 'TPLEX')
 
-# SCTEX Toll Rates - Class 1 Vehicles
-sctex = Expressway.find_by!(name: 'SCTEX')
-
-sctex_rates = [
-  { origin: 'Tipo', destination: 'Subic', toll_fee: 57, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Dinalupihan', toll_fee: 106, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Floridablanca', toll_fee: 182, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Porac', toll_fee: 206, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Clark South', toll_fee: 225, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Clark North', toll_fee: 236, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Mabalacat', toll_fee: 248, vehicle_class: 1 },
-  { origin: 'Tipo', destination: 'Tarlac City', toll_fee: 291, vehicle_class: 1 },
-  # Add more SCTEX rates as needed
+tplex_rates = [
+  { origin: 'SCTEX-EX', destination: 'TPLEX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'TPLEX-EX', destination: 'SCTEX-EN', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'TPLEX-EN', destination: 'La Paz', toll_fee: 0, vehicle_class: 1 },
+  # La Paz entry point rates
+  { origin: 'La Paz', destination: 'Victoria', toll_fee: 30, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Gerona', toll_fee: 58, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Paniqui', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Moncada', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Carmen', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Urdaneta', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Binalonan', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Sison', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'La Paz', destination: 'Rosario', toll_fee: 54, vehicle_class: 1 },
+  # Victoria entry point rates
+  { origin: 'Victoria', destination: 'Gerona', toll_fee: 58, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Paniqui', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Moncada', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Carmen', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Urdaneta', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Binalonan', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Sison', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Victoria', destination: 'Rosario', toll_fee: 54, vehicle_class: 1 },
+  #  Gerona entry point rates
+  { origin: 'Gerona', destination: 'Paniqui', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Moncada', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Carmen', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Urdaneta', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Binalonan', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Sison', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Gerona', destination: 'Rosario', toll_fee: 54, vehicle_class: 1 },
+  # Paniqui entry point rates
+  { origin: 'Paniqui', destination: 'Moncada', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Carmen', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Urdaneta', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Binalonan', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Sison', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Paniqui', destination: 'Rosario', toll_fee: 54, vehicle_class: 1 },
+  # Moncada entry point rates
+  { origin: 'Moncada', destination: 'Carmen', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Moncada', destination: 'Urdaneta', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Moncada', destination: 'Binalonan', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Moncada', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Moncada', destination: 'Sison', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Moncada', destination: 'Rosario', toll_fee: 54, vehicle_class: 1 },
+  # Carmen entry point rates
+  { origin: 'Carmen', destination: 'Urdaneta', toll_fee: 52, vehicle_class: 1 },
+  { origin: 'Carmen', destination: 'Binalonan', toll_fee: 71, vehicle_class: 1 },
+  { origin: 'Carmen', destination: 'Pozzorubio', toll_fee: 106, vehicle_class: 1 },
+  { origin: 'Carmen', destination: 'Sison', toll_fee: 127, vehicle_class: 1 },
+  { origin: 'Carmen', destination: 'Rosario', toll_fee: 147, vehicle_class: 1 },
+  # Urdaneta entry point rates
+  { origin: 'Urdaneta', destination: 'Binalonan', toll_fee: 19, vehicle_class: 1 },
+  { origin: 'Urdaneta', destination: 'Pozzorubio', toll_fee: 54, vehicle_class: 1 },
+  { origin: 'Urdaneta', destination: 'Sison', toll_fee: 75, vehicle_class: 1 },
+  { origin: 'Urdaneta', destination: 'Rosario', toll_fee: 95, vehicle_class: 1 },
+  # Binalonan entry point rates
+  { origin: 'Binalonan', destination: 'Pozzorubio', toll_fee: 35, vehicle_class: 1 },
+  { origin: 'Binalonan', destination: 'Sison', toll_fee: 56, vehicle_class: 1 },
+  { origin: 'Binalonan', destination: 'Rosario', toll_fee: 76, vehicle_class: 1 },
+  # Pozzorubio entry point rates
+  { origin: 'Pozzorubio', destination: 'Sison', toll_fee: 21, vehicle_class: 1 },
+  { origin: 'Pozzorubio', destination: 'Rosario', toll_fee: 41, vehicle_class: 1 },
+  # Sision entry point rates
+  { origin: 'Sison', destination: 'Rosario', toll_fee: 21, vehicle_class: 1 },
+  { origin: 'Rosario', destination: 'TPLEX-EX', toll_fee: 0, vehicle_class: 1 },
+  { origin: 'TPLEX-EN', destination: 'Rosario', toll_fee: 0, vehicle_class: 1 },
 ]
 
 # SKYWAY STAGE 3 Toll Rates - Class 1 Vehicles
 skyway_stage_3 = Expressway.find_by!(name: 'SKYWAY STAGE 3')
 skyway_stage_3_rates = [
   # Buenida entry point rates
+  STAGE-THREE-EN
+  { origin: 'STAGE-THREE-EN', destination: 'Buendia', toll_fee: 0, vehicle_class: 1 },
   { origin: 'Buendia', destination: 'Quirino', toll_fee: 105, vehicle_class: 1 },
   { origin: 'Buendia', destination: 'Plaza Azul', toll_fee: 264, vehicle_class: 1 },
   { origin: 'Buendia', destination: 'Nagtahan', toll_fee: 264, vehicle_class: 1 },
@@ -594,7 +703,8 @@ skyway_stage_3_rates = [
   # E. Rodriguez entry point rates
   { origin: 'E. Rodriguez', destination: 'Quezon Ave', toll_fee: 129, vehicle_class: 1 },
   { origin: 'E. Rodriguez', destination: 'Balintawak', toll_fee: 129, vehicle_class: 1 },
-  { origin: 'E. Rodriguez', destination: 'NLEX', toll_fee: 129, vehicle_class: 1 },
+  { origin: 'E. Rodriguez', destination: 'STAGE-THREE-EX', toll_fee: 129, vehicle_class: 1 },
+  { origin: 'STAGE-THREE-EX', destination: 'NLEX-EN', toll_fee: 0, vehicle_class: 1 },
 ]
 
 # Create all routes
@@ -626,6 +736,7 @@ rescue ActiveRecord::RecordInvalid => e
 end
 
 # Create routes for both expressways
+naiax_rates.each { |rate| create_bidirectional_route(naiax, rate) }
 nlex_rates.each { |rate| create_bidirectional_route(nlex, rate) }
 sctex_rates.each { |rate| create_bidirectional_route(sctex, rate) }
 cavitex_rates.each { |rate| create_bidirectional_route(cavitex, rate) }
@@ -654,3 +765,4 @@ end
 
 create_other_vehicle_classes(nlex, nlex_rates)
 create_other_vehicle_classes(sctex, sctex_rates)
+create_other_vehicle_classes(cavitex, cavitex_rates)
